@@ -1,0 +1,31 @@
+{
+  "name": "practica_node_2025_1c",
+  "version": "1.0.0",
+  "description": "En este iremos subiendo las practicas con node",
+  "main": "index.js",
+  "scripts": {
+    "nodemonStart": "npx nodemon ./index.js",
+    "start": "node ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GZifts11/Practica_Node_2025_1C.git"
+  },
+  "keywords": [
+    "IFTS11",
+    "Server"
+  ],
+  "author": "Gustavo Z.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GZifts11/Practica_Node_2025_1C/issues"
+  },
+  "homepage": "https://github.com/GZifts11/Practica_Node_2025_1C#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
