@@ -2,10 +2,10 @@
   "name": "practica_node_2025_1c",
   "version": "1.0.0",
   "description": "En este iremos subiendo las practicas con node",
-  "main": "index.js",
+  "main": "serverExpress.js",
   "scripts": {
-    "nodemonStart": "npx nodemon ./index.js",
-    "start": "node ./index.js",
+    "nodemonStart": "npx nodemon ./serverExpress.js",
+    "start": "node ./serverExpress.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
