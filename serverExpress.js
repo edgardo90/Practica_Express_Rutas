@@ -4,7 +4,7 @@ const HOSTNAME = '127.0.0.1';
 const PORT = 3000;
 
 const fs = require('node:fs')
-const {infoLenguajes} = require('./src/lenguajesFrontBack');
+const { infoLenguajes } = require('./src/lenguajesFrontBack');
 
 const HOME = fs.readFileSync('./index.html');
 const ABOUT = fs.readFileSync('./about.html');
@@ -44,9 +44,9 @@ app.get('/api/lenguajes/frontend/:lenguaje/', (req, res) => {
     const lenguaje = req.params.lenguaje;
     const paramOrdenar = req.query.ordenar;
     const otroParam = req.query.otroParam;
-    
+
     console.log("El valor del query param ordenar es:", paramOrdenar)
-    
+
     console.log("El valor del otro param query es:", otroParam)
 
     res.setHeader('Content-Type', 'application/json')
@@ -59,19 +59,19 @@ app.get('/api/lenguajes/frontend/:lenguaje/', (req, res) => {
 
     //console.log("Los lenguajes filtrados son: ",filtrado)
 
-    if(filtrado.length === 0){
+    if (filtrado.length === 0) {
         return res.status(404).send(`No se encontró en el curso de frontend el lenguaje:${lenguaje}`)
     }
 
-    if(paramOrdenar === "arriba"){
+    if (paramOrdenar === "arriba") {
         res.send(JSON.stringify(filtrado.sort(
-            (a,b) => b.cantidadAlumnos - a.cantidadAlumnos
+            (a, b) => b.cantidadAlumnos - a.cantidadAlumnos
         )))
-    }else if (paramOrdenar === "abajo"){
+    } else if (paramOrdenar === "abajo") {
         res.send(JSON.stringify(filtrado.sort(
-            (a,b) => a.cantidadAlumnos - b.cantidadAlumnos
+            (a, b) => a.cantidadAlumnos - b.cantidadAlumnos
         )))
-    }else{
+    } else {
         return res.status(200).send(filtrado)
     }
 
@@ -91,7 +91,7 @@ app.get('/api/lenguajes/frontend/:urlParam/:otroUrlParam', (req, res) => {
 //1) Generar un endpoint, con método GET, con la ruta /api/lenguajes/backend/
 //Al invocar esta ruta del servidor, me debe traer todos los lenguajes de backend.
 app.get('/api/lenguajes/backend/', (req, res) => {
-    res.setHeader('Content-Type', 'application/json')
+    // res.setHeader('Content-Type', 'application/json')
     return res.status(200).json(infoLenguajes.backend)
 })
 
@@ -99,9 +99,9 @@ app.get('/api/lenguajes/backend/', (req, res) => {
 //Que reciba por URL param, el parámetro "lenguaje".
 //Al invocar esta ruta del servidor, me debe traer los lenguajes de backend que coincidan el valor buscado.
 app.get('/api/lenguajes/backend/lenguaje/:lenguaje', (req, res) => {
-    const {lenguaje} = req.params
+    const { lenguaje } = req.params
     const lenguajesFilter = infoLenguajes.backend.filter(el => el.nombre === lenguaje)
-    res.setHeader('Content-Type', 'application/json')
+    // res.setHeader('Content-Type', 'application/json')
     return res.status(200).json(lenguajesFilter)
 })
 
@@ -109,11 +109,54 @@ app.get('/api/lenguajes/backend/lenguaje/:lenguaje', (req, res) => {
 //Que reciba por URL param, el parámetro "turno"
 //Al invocar esta ruta del servidor, me debe traer los lenguajes de backend que coincidan con el turno buscado.
 app.get('/api/lenguajes/backend/turno/:turno', (req, res) => {
-    const {turno} = req.params
+    const { turno } = req.params
     const lenguajesFilter = infoLenguajes.backend.filter(el => el.turno === turno)
-    res.setHeader('Content-Type', 'application/json')
+    // res.setHeader('Content-Type', 'application/json')
     return res.status(200).json(lenguajesFilter)
 })
+
+//4) Frontend por turno
+app.get('/api/lenguajes/frontend/turno/:turno', (req, res) => {
+    const { turno } = req.params
+    const lenguajesFilter = infoLenguajes.frontend.filter(el => el.turno === turno)
+
+    // res.setHeader('Content-Type', 'application/json') // No es necesario porque res.json ya lo hace
+    return res.status(200).json(lenguajesFilter)
+})
+
+// 5) Backend con cantidad de alumnos igual o mayor
+app.get('/api/lenguajes/backend/cantidadAlumnos/:cantidad', (req, res) => {
+    const { cantidad } = req.params
+    const cantidadNumber = parseInt(cantidad)
+    const lenguajesFilter = infoLenguajes.backend.filter(el => el.cantidadAlumnos >= cantidadNumber)
+    // res.setHeader('Content-Type', 'application/json') // No es necesario porque res.json ya lo hace
+    return res.status(200).json(lenguajesFilter)
+})
+
+//6) Frontend con cantidad de alumnos igual o mayor
+app.get('/api/lenguajes/frontend/cantidadAlumnos/:cantidad', (req, res) => {
+    const { cantidad } = req.params
+    const cantidadNumber = parseInt(cantidad)
+    const lenguajesFilter = infoLenguajes.frontend.filter(el => el.cantidadAlumnos >= cantidadNumber)
+    // res.setHeader('Content-Type', 'application/json') // No es necesario porque res.json ya lo hace
+    return res.status(200).json(lenguajesFilter)
+})
+
+//7) Todos los lenguajes con cantidad de alumnos igual o mayor
+app.get('/api/lenguajes/cantidadAlumnos/:cantidad', (req, res) => {
+    const { cantidad } = req.params
+    const cantidadNumber = parseInt(cantidad)
+    const frontendFilter = infoLenguajes.frontend.filter(el => el.cantidadAlumnos >= cantidadNumber)
+    const backendFilter = infoLenguajes.backend.filter(el => el.cantidadAlumnos >= cantidadNumber)
+    const resultado = {
+        frontend: frontendFilter,
+        backend: backendFilter
+    }
+    // res.setHeader('Content-Type', 'application/json') // No es necesario porque res.json ya lo hace
+    return res.status(200).json(resultado)
+})
+
+
 
 app.get('/{*any}', (req, res) => {
     res.setHeader('Content-Type', 'text/plain')
