@@ -89,9 +89,21 @@ app.get('/api/lenguajes/frontend/:urlParam/:otroUrlParam', (req, res) => {
 
 
 //1) Generar un endpoint, con método GET, con la ruta /api/lenguajes/backend/
+//Al invocar esta ruta del servidor, me debe traer todos los lenguajes de backend.
 app.get('/api/lenguajes/backend/', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
     return res.status(200).json(infoLenguajes.backend)
+})
+
+//2) Generar un endpoint, con método GET, con la ruta /api/lenguajes/backend/
+//Que reciba por URL param, el parámetro "lenguaje".
+//Al invocar esta ruta del servidor, me debe traer los lenguajes de backend que coincidan el valor buscado.
+app.get('/api/lenguajes/backend/:lenguaje', (req, res) => {
+    const {lenguaje} = req.params
+    console.log(lenguaje)
+    const lenguajesFilter = infoLenguajes.backend.filter(el => el.nombre === lenguaje)
+    res.setHeader('Content-Type', 'application/json')
+    return res.status(200).json(lenguajesFilter)
 })
 
 app.get('/{*any}', (req, res) => {
