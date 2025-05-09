@@ -86,10 +86,12 @@ app.get('/api/lenguajes/frontend/:urlParam/:otroUrlParam', (req, res) => {
     res.send(`${urlParam} ${otroUrlParam}`)
 })
 
-app.get('/api/lenguajes/backend', (req, res) => {
+
+
+//1) Generar un endpoint, con método GET, con la ruta /api/lenguajes/backend/
+app.get('/api/lenguajes/backend/', (req, res) => {
     res.setHeader('Content-Type', 'application/json')
-    res.status(200)
-    res.send(JSON.stringify(infoLenguajes.backend))
+    return res.status(200).json(infoLenguajes.backend)
 })
 
 app.get('/{*any}', (req, res) => {
