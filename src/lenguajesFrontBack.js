@@ -68,7 +68,7 @@ let infoLenguajes = {
         {
             id: 1,
             nombre: "JavaScript",
-            turno: "noche",
+            turno: "dia",
             comision: "A",
             cantidadAlumnos: 30
         },
@@ -96,4 +96,8 @@ let infoLenguajes = {
     ]
 }
 
-module.exports.infoLenguajes = infoLenguajes;
+// module.exports.infoLenguajes = infoLenguajes;
+
+module.exports = {
+    infoLenguajes
+}
